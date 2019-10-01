@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "360959983883",
+    "firebase_url": "https://fchat-3049a.firebaseio.com",
+    "project_id": "fchat-3049a",
+    "storage_bucket": "fchat-3049a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360959983883:android:16f5cf456503ccdf98620e",
+        "android_client_info": {
+          "package_name": "com.antonkrasov.fchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360959983883-l9dndqro7foj2d7gj8j8mjt53poe82o5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh10nOkvwtxnAf4TMXysGmIQorBf5xCeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360959983883-l9dndqro7foj2d7gj8j8mjt53poe82o5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "360959983883-m44nkcrnrr6ot4cj72lg2fupknrelo00.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.antonkrasov.fchat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
