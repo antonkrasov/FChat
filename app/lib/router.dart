@@ -1,3 +1,5 @@
+import 'package:fchat/ui/screens/home.dart';
+import 'package:fchat/ui/screens/login.dart';
 import 'package:fchat/ui/screens/splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,14 @@ class Router {
         return MaterialPageRoute(
           builder: (_) => SplashScreen(),
           settings: RouteSettings(isInitialRoute: true),
+        );
+      case 'login':
+        return MaterialPageRoute(
+          builder: (_) => LoginScreen(),
+        );
+      case 'home':
+        return MaterialPageRoute(
+          builder: (_) => HomeScreen(),
         );
     }
 

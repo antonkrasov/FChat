@@ -1,35 +1,29 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fchat/blocs/user/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    _test();
-  }
-
+class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Center(
-          child: Image.asset('assets/splash_logo.png'),
+    final userBloc = BlocProvider.of<UserBloc>(context);
+
+    return BlocListener(
+      bloc: userBloc,
+      listener: (context, state) {
+        if (state is LoggedInUserState) {
+          Navigator.of(context).pushNamed('home');
+        } else if (state is LoginRequiredUserState) {
+          Navigator.of(context).pushNamed('login');
+        }
+      },
+      child: Scaffold(
+        body: Center(
+          child: Center(
+            child: Image.asset('assets/splash_logo.png'),
+          ),
         ),
       ),
     );
-  }
-
-  _test() async {
-    await Firestore.instance
-        .collection('test')
-        .document()
-        .setData({'test': true});
   }
 }

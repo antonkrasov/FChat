@@ -15,6 +15,10 @@ dependencies:
   cloud_firestore: ^0.12.9+4
   firebase_auth: ^0.14.0+5
 
+  provider: ^3.0.0+1
+  flutter_bloc: ^0.21.0
+  equatable: ^0.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
