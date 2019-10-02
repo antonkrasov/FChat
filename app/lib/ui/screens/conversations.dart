@@ -53,7 +53,10 @@ class ConversationTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('chat');
+        Navigator.of(context).pushNamed(
+          'chat',
+          arguments: conversation,
+        );
       },
       child: Card(
         child: Padding(

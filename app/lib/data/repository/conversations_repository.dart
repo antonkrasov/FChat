@@ -13,7 +13,7 @@ class ConversationsRepository {
     final conversations = rawUsers.map((rawUser) {
       final user = FChatUser.fromMap(rawUser);
 
-      final conversation = Conversation(user);
+      final conversation = Conversation(user.id, user);
       return conversation;
     }).toList();
 

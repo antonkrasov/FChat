@@ -23,7 +23,9 @@ class Router {
         );
       case 'chat':
         return MaterialPageRoute(
-          builder: (_) => ChatScreen(),
+          builder: (_) => ChatScreen(
+            conversation: settings.arguments,
+          ),
         );
     }
 

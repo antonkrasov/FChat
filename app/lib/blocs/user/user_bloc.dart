@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:fchat/data/model/user.dart';
 import 'package:fchat/data/repository/user_repository.dart';
 import './bloc.dart';
 
@@ -33,5 +34,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Stream<UserState> _handleLoggedInEvent(LoggedInEvent event) async* {
     yield LoggedInUserState(event.fChatUser);
+  }
+
+  FChatUser getCurrentUser() {
+    final state = currentState;
+    if (state is LoggedInUserState) {
+      return state.fChatUser;
+    }
+
+    return null;
   }
 }
