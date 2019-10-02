@@ -1,32 +1,53 @@
+import 'package:fchat/blocs/conversations/bloc.dart';
+import 'package:fchat/data/model/conversation.dart';
 import 'package:flutter/material.dart';
-
-const ITEMS = [
-  'TEST 1',
-  'TEST 2',
-  'Anton Krasov',
-  'Ipad Test',
-];
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConversationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: ITEMS.length,
-      padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-      itemBuilder: (context, position) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: ConversationTile(
-          name: ITEMS[position],
-        ),
-      ),
+    final conversationsBloc = BlocProvider.of<ConversationsBloc>(context);
+
+    return BlocBuilder(
+      bloc: conversationsBloc,
+      builder: (context, state) => _build(state),
     );
+  }
+
+  _build(state) {
+    if (state is LoadingConversationsState) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (state is ErrorConversationsState) {
+      final error = state.error;
+      return Center(
+        child: Text('$error'),
+      );
+    }
+
+    if (state is IdleConversationsState) {
+      final conversations = state.conversations;
+      return ListView.builder(
+        itemCount: conversations.length,
+        padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+        itemBuilder: (context, position) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: ConversationTile(
+            conversation: conversations[position],
+          ),
+        ),
+      );
+    }
   }
 }
 
 class ConversationTile extends StatelessWidget {
-  final String name;
+  final Conversation conversation;
 
-  const ConversationTile({Key key, this.name}) : super(key: key);
+  const ConversationTile({Key key, this.conversation}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +69,7 @@ class ConversationTile extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    name[0],
+                    conversation.user.name[0],
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -61,7 +82,7 @@ class ConversationTile extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  this.name,
+                  conversation.user.name,
                   style: TextStyle(fontSize: 16),
                 ),
               ),
