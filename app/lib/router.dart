@@ -1,3 +1,4 @@
+import 'package:fchat/ui/screens/chat.dart';
 import 'package:fchat/ui/screens/home.dart';
 import 'package:fchat/ui/screens/login.dart';
 import 'package:fchat/ui/screens/splash.dart';
@@ -19,6 +20,10 @@ class Router {
       case 'home':
         return MaterialPageRoute(
           builder: (_) => HomeScreen(),
+        );
+      case 'chat':
+        return MaterialPageRoute(
+          builder: (_) => ChatScreen(),
         );
     }
 

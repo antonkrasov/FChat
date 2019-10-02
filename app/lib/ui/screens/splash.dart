@@ -12,9 +12,9 @@ class SplashScreen extends StatelessWidget {
       bloc: userBloc,
       listener: (context, state) {
         if (state is LoggedInUserState) {
-          Navigator.of(context).pushNamed('home');
+          Navigator.of(context).pushReplacementNamed('home');
         } else if (state is LoginRequiredUserState) {
-          Navigator.of(context).pushNamed('login');
+          Navigator.of(context).pushReplacementNamed('login');
         }
       },
       child: Scaffold(
