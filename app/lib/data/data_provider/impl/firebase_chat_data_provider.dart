@@ -13,28 +13,6 @@ class FirebaseChatDataProvider extends ChatDataProvider {
   }
 
   @override
-  Future<List<Map>> getMessages({String conversationId}) async {
-    final currentUser = await _firebaseAuth.currentUser();
-    final currentUserID = currentUser.uid;
-
-    final snapshots = await _firestore
-        .collection('messages')
-        .where(
-          'conversation_id',
-          isEqualTo: _buildConversationId(currentUserID, conversationId),
-        )
-        .getDocuments();
-
-    final rawMessages = snapshots.documents.map((rawMessage) {
-      rawMessage.data['id'] = rawMessage.documentID;
-      rawMessage.data['is_from_user'] = rawMessage.data['from_id'] == currentUserID;
-      return rawMessage.data;
-    }).toList();
-
-    return rawMessages;
-  }
-
-  @override
   Future<void> sendMessage({
     String toId,
     String toName,
@@ -52,6 +30,28 @@ class FirebaseChatDataProvider extends ChatDataProvider {
       'from_name': fromName,
       'text': text,
       'date': FieldValue.serverTimestamp()
+    });
+  }
+
+  @override
+  Stream<List<Map>> messages({String conversationId}) async* {
+    final currentUser = await _firebaseAuth.currentUser();
+    final currentUserID = currentUser.uid;
+
+    yield* _firestore
+        .collection('messages')
+        .where(
+          'conversation_id',
+          isEqualTo: _buildConversationId(currentUserID, conversationId),
+        )
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.documents.map((rawMessage) {
+        rawMessage.data['id'] = rawMessage.documentID;
+        rawMessage.data['is_from_user'] =
+            rawMessage.data['from_id'] == currentUserID;
+        return rawMessage.data;
+      }).toList();
     });
   }
 }

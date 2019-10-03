@@ -1,35 +1,20 @@
 import 'package:equatable/equatable.dart';
-import 'package:fchat/data/model/conversation.dart';
 import 'package:fchat/data/model/message.dart';
 
 abstract class ChatEvent extends Equatable {
   const ChatEvent();
 }
 
-class LoadChatEvent extends ChatEvent {
-  final Conversation conversation;
+class UpdateMessagesChatEvent extends ChatEvent {
+  final List<Message> messages;
 
-  LoadChatEvent(this.conversation);
-
-  @override
-  List<Object> get props => [conversation];
+  UpdateMessagesChatEvent(this.messages);
 
   @override
-  String toString() {
-    return 'LoadChatEvent{$conversation}';
-  }
-}
-
-class NewMessageChatEvent extends ChatEvent {
-  final Message message;
-
-  NewMessageChatEvent(this.message);
-
-  @override
-  List<Object> get props => [message];
+  List<Object> get props => [messages];
 
   @override
   String toString() {
-    return 'NewMessageChatEvent{$message}';
+    return 'UpdateMessagesChatEvent{$messages}';
   }
 }

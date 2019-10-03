@@ -29,7 +29,7 @@ class Message extends Equatable {
       to: FChatUser.fromMap(rawToUser),
       text: rawMessage['text'],
       isFromUser: rawMessage['is_from_user'],
-      time: rawMessage['date'].toDate(),
+      time: rawMessage['date']?.toDate(),
     );
   }
 }

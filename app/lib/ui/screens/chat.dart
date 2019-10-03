@@ -24,11 +24,14 @@ class ChatScreen extends StatelessWidget {
     final chatRepository = ChatRepository(chatDataProvider);
 
     final chatBloc = ChatBloc(
-        chatRepository: chatRepository, conversationsBloc: conversationsBloc)
-      ..dispatch(
-        LoadChatEvent(this.conversation),
-      );
-    ;
+      chatRepository: chatRepository,
+      conversationsBloc: conversationsBloc,
+      conversation: this.conversation,
+    );
+    // ..dispatch(
+    //   LoadChatEvent(this.conversation),
+    // );
+    // ;
     final sendmessageBloc =
         SendmessageBloc(chatBloc: chatBloc, userBloc: userBloc);
 

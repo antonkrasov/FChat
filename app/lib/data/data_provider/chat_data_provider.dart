@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
+
 abstract class ChatDataProvider {
-  Future<List<Map>> getMessages({String conversationId});
+  Stream<List<Map>> messages({@required String conversationId});
 
   Future<void> sendMessage(
       {String toId,

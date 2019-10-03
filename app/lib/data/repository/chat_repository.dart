@@ -9,18 +9,34 @@ class ChatRepository {
 
   ChatRepository(this.chatDataProvider);
 
-  Future<List<Message>> getMessages(Conversation conversation) async {
-    final rawMessages =
-        await chatDataProvider.getMessages(conversationId: conversation.id);
+  Stream<List<Message>> messages(Conversation conversation) async* {
+    yield* chatDataProvider
+        .messages(conversationId: conversation.id)
+        .map((rawMessages) {
+      final messages = rawMessages
+          .map(
+            (rawMessage) => Message.fromMap(rawMessage),
+          )
+          .toList();
 
-    final messages = rawMessages
-        .map(
-          (rawMessage) => Message.fromMap(rawMessage),
-        )
-        .toList();
+      // TODO: better implementation...
+      messages.sort((a, b) {
+        if (a.time == null && b.time == null) {
+          return 0;
+        }
 
-    messages.sort((a, b) => a.time.compareTo(b.time));
-    return messages;
+        if (a.time == null) {
+          return -1;
+        }
+
+        if (b.time == null) {
+          return 1;
+        }
+
+        return a.time.compareTo(b.time);
+      });
+      return messages;
+    });
   }
 
   Future<void> sendMessage({
