@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fchat/data/data_provider/chat_data_provider.dart';
+import 'package:fchat/data/model/conversation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseChatDataProvider extends ChatDataProvider {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final Firestore _firestore = Firestore.instance;
-
-  String _buildConversationId(first, second) {
-    final ids = [first, second];
-    ids.sort((a, b) => a.compareTo(b));
-    return '${ids[0]}:${ids[1]}';
-  }
 
   @override
   Future<void> sendMessage({
@@ -20,9 +15,9 @@ class FirebaseChatDataProvider extends ChatDataProvider {
     String fromName,
     String text,
   }) async {
-    final conversationId = _buildConversationId(toId, fromId);
+    final conversationId = Conversation.buildId(toId, fromId);
 
-    await _firestore.collection('messages').document().setData({
+    final messageData = {
       'conversation_id': conversationId,
       'to_id': toId,
       'to_name': toName,
@@ -30,7 +25,10 @@ class FirebaseChatDataProvider extends ChatDataProvider {
       'from_name': fromName,
       'text': text,
       'date': FieldValue.serverTimestamp()
-    });
+    };
+
+    await _firestore.collection('messages').document().setData(messageData);
+    await _firestore.collection('unread_messages').document().setData(messageData);
   }
 
   @override
@@ -42,7 +40,7 @@ class FirebaseChatDataProvider extends ChatDataProvider {
         .collection('messages')
         .where(
           'conversation_id',
-          isEqualTo: _buildConversationId(currentUserID, conversationId),
+          isEqualTo: Conversation.buildId(currentUserID, conversationId),
         )
         .snapshots()
         .map((snapshot) {

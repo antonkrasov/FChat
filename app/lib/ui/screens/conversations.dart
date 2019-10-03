@@ -89,6 +89,22 @@ class ConversationTile extends StatelessWidget {
                   style: TextStyle(fontSize: 16),
                 ),
               ),
+              if (conversation.unreadMessages != 0)
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration:
+                      BoxDecoration(shape: BoxShape.circle, color: Colors.teal),
+                  child: Center(
+                    child: Text(
+                      '${conversation.unreadMessages}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                )
             ],
           ),
         ),

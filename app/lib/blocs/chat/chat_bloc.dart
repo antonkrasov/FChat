@@ -37,6 +37,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     ChatEvent event,
   ) async* {
     if (event is UpdateMessagesChatEvent) {
+      // let's notify converstions Bloc about new messages,
+      // we need to remove unread badge count, etc...
+      conversationsBloc.dispatch(
+        MessagesReadConversationsEvent(event.messages),
+      );
+
       yield IdleChatState(event.messages);
     }
   }

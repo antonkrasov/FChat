@@ -15,4 +15,9 @@ class FChatUser extends Equatable {
       name: rawUser['name'],
     );
   }
+
+  @override
+  String toString() {
+  return 'FChatUser{$name}';
+   }
 }
