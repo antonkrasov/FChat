@@ -24,7 +24,11 @@ class ChatScreen extends StatelessWidget {
     final chatRepository = ChatRepository(chatDataProvider);
 
     final chatBloc = ChatBloc(
-        chatRepository: chatRepository, conversationsBloc: conversationsBloc);
+        chatRepository: chatRepository, conversationsBloc: conversationsBloc)
+      ..dispatch(
+        LoadChatEvent(this.conversation),
+      );
+    ;
     final sendmessageBloc =
         SendmessageBloc(chatBloc: chatBloc, userBloc: userBloc);
 
@@ -84,8 +88,9 @@ class ChatList extends StatelessWidget {
     }
 
     if (state is IdleChatState) {
-      final messages = state.messages;
+      final messages = state.messages.reversed.toList();
       return ListView.builder(
+        reverse: true,
         itemCount: messages.length,
         itemBuilder: (context, position) {
           return ChatMessage(
@@ -211,7 +216,7 @@ class ChatMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color =
-        fromUser ? Colors.blue.withOpacity(0.3) : Colors.teal.withOpacity(0.3);
+        fromUser ? Colors.blue.withOpacity(0.3) : Colors.white.withOpacity(0.3);
 
     return Card(
       color: color,

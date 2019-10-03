@@ -19,13 +19,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     ChatEvent event,
   ) async* {
     if (event is LoadChatEvent) {
-      yield* _handleLoadChatEvent();
+      yield* _handleLoadChatEvent(event);
     } else if (event is NewMessageChatEvent) {
       yield* _handleNewMessageChatEvent(event);
     }
   }
 
-  _handleLoadChatEvent() {}
+  Stream<ChatState> _handleLoadChatEvent(LoadChatEvent event) async* {
+    yield LoadingChatState();
+
+    try {
+      final messages = await chatRepository.getMessages(event.conversation);
+      yield IdleChatState(messages);
+    } catch (ex) {
+      yield ErrorChatState(ex);
+    }
+  }
 
   _handleNewMessageChatEvent(NewMessageChatEvent event) {}
 }

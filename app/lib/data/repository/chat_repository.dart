@@ -19,6 +19,7 @@ class ChatRepository {
         )
         .toList();
 
+    messages.sort((a, b) => a.time.compareTo(b.time));
     return messages;
   }
 
